@@ -1,0 +1,8 @@
+{
+  "name": "rx-euler",
+  "dependencies": {
+    "colors": "^0.6.2",
+    "rx": "^2.3.11",
+    "minimist": "^1.1.0"
+  }
+}
