@@ -5,11 +5,11 @@
 //
 // By considering the terms in the Fibonacci sequence whose values do not exceed four million,
 // find the sum of the even-valued terms.
-
 var Rx = require('rx');
-module.exports = function() {
+
+module.exports = () => {
     // a simple source that outputs the Fibonacci sequence up to 4,000,000.
-    var fibSource = Rx.Observable.create(function(observer) {
+    var fibSource = Rx.Observable.create(observer => {
         var term1 = 1, term2 = 1;
         while(term2 < 4000000) {
             var fib = term1 + term2;
@@ -21,10 +21,6 @@ module.exports = function() {
     });
 
     return fibSource
-        .filter(function(x) {
-            return x % 2 === 0;
-        })
-        .aggregate(0, function(memo, x) {
-            return memo + x;
-        });
+        .filter(x => x % 2 === 0)
+        .aggregate(0, (memo, x) => memo + x);
 };

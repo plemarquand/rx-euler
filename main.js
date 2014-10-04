@@ -15,7 +15,7 @@ var argumentFilter = function(sln) {
 };
 
 var runSolution = function(pkg) {
-    return require(pkg.sln)().map(function(result) {
+    return require(pkg.sln)().map(result => {
         pkg.result = result;
         return pkg;
     });
@@ -29,10 +29,16 @@ var formatResult = function(pkg) {
     return status + " " + (elapsed + "ms").yellow + " " + name + ":\t" + pkg.result.toString().blue.bold;
 };
 
-var answersStream = readFile(answersFile, 'utf-8').map(JSON.parse).flatMapLatest(function(answers) {
-    return readDir(solutionsPath).flatMap(Rx.Observable.fromArray).filter(argumentFilter).map(function(path) {
-        return {answers:answers, sln: pathUtil.join(solutionsPath, path), start: Date.now()};
-    });
-});
+var answersStream = readFile(answersFile, 'utf-8')
+    .map(JSON.parse)
+    .flatMapLatest(answers =>
+        readDir(solutionsPath)
+            .flatMap(Rx.Observable.fromArray)
+            .filter(argumentFilter)
+            .map(path => ({answers:answers, sln: pathUtil.join(solutionsPath, path), start: Date.now()}))
+);
 
-answersStream.flatMap(runSolution).map(formatResult).subscribe(console.log);
+answersStream
+    .flatMap(runSolution)
+    .map(formatResult)
+    .subscribe(console.log);

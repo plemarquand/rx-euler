@@ -9,14 +9,9 @@ function reverse(s) {
     return s.split("").reverse().join("");
 }
 
-module.exports = function() {
-    var range = Rx.Observable.range(100, 899);
-    return range.flatMap(function(x) {
-        return Rx.Observable.range(100, 899).map(function(y) {
-            return x * y;
-        });
-    }).filter(function(value) {
-        var product = value.toString();
-        return product === reverse(product);
-    }).max();
+module.exports = () => {
+    return Rx.Observable.range(100, 899)
+        .flatMap(x => Rx.Observable.range(100, 899).map(y => x * y))
+        .filter(value => value.toString() === reverse(value.toString()))
+        .max();
 };

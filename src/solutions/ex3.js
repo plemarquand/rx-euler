@@ -2,8 +2,9 @@
 //
 // What is the largest prime factor of the number 600851475143?
 var Rx = require('rx');
-module.exports = function(callback) {
-    return Rx.Observable.create(function(observer) {
+
+module.exports = () => {
+    return Rx.Observable.create(observer => {
         // http://stackoverflow.com/questions/23287/largest-prime-factor-of-a-number
         var n = 600851475143, d = 2;
         while(n > 1) {
